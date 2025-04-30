@@ -29,20 +29,17 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 .github/workflows/\
 │\
 ├── apps/\
-│   │\
-│   └── app.py
-│               
-├── scripts/
-│   │
-│   ├── setup.sh              
-│   ├── run_app.sh            
-│   ├── update_html.sh        
-│   ├── git_push.sh        
-│   ├── deploy.sh            
-│   └── entrypoint.sh  
+│   &ensp;&ensp;&ensp;└── app.py          
+├── scripts/\
+│   &ensp;&ensp;&ensp;├── setup.sh              
+│   &ensp;&ensp;&ensp;├── run_app.sh            
+│   &ensp;&ensp;&ensp;├── update_html.sh        
+│   &ensp;&ensp;&ensp;├── git_push.sh        
+│   &ensp;&ensp;&ensp;├── deploy.sh            
+│   &ensp;&ensp;&ensp;└── entrypoint.sh  
 │     
 ├── ci.yml                    
-└── deploy.yml              
+└── deploy.yml\              
 index.html                 
 specific data.txt           
 Dockerfile                    
