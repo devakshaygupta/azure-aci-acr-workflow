@@ -9,6 +9,8 @@ on:
         required: true
       ACR_USERNAME:
         required: true
+      ACR_NAME:  # Add this line
+        required: true
 
 jobs:
   build-push-deploy:
