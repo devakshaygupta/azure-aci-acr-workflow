@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Debug ACR_NAME
+        run: "echo 'ACR_NAME: ${{ secrets.ACR_NAME }}'"
         env:
           ACR_NAME: ${{ secrets.ACR_NAME }}
-          run: "echo 'ACR_NAME: ${{ secrets.ACR_NAME }}'"
 
