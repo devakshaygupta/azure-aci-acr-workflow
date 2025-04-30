@@ -39,7 +39,8 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 │   &ensp;&ensp;&ensp;└── entrypoint.sh  
 │     
 ├── ci.yml                    
-└── deploy.yml\              
+└── deploy.yml
+
 index.html                 
 specific data.txt           
 Dockerfile                    
