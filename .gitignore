@@ -1,0 +1,21 @@
+# Ignore the setup script
+.github/scripts/setup.sh
+
+# General ignores
+*.log
+*.env
+*.pyc
+__pycache__/
+
+# Node.js dependencies (if applicable)
+node_modules/
+
+# Python virtual environments
+venv/
+.env/
+
+# VS Code settings
+.vscode/
+
+# Docker-related files
+*.dockerignore
