@@ -1,4 +1,4 @@
-# 🚀 Word Count CI/CD with ACR + ACI + GitHub Actions (Codespaces Ready)
+# 🚀 Word Count CI/CD with ACR + ACI + GitHub Actions
 This project demonstrates a complete CI/CD pipeline using **Azure Container Registry (ACR)**, **Azure Container Instances (ACI)**, and **GitHub Actions**, triggered by changes to a data file.
 
 ## 🎓 Project overview:
@@ -28,20 +28,19 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 
 .github/workflows/
 ├── apps/
-│   └── app.py              # Reads 'specific data.txt' and prints word count  
+│   └── app.py                
 ├── scripts/
-│   ├── setup.sh            # One-time Azure login + ACR + resource group  
-│   ├── run_app.sh          # Runs the Python app and captures word count  
-│   ├── update_html.sh      # Updates <p> tag in index.html  
-│   ├── git_push.sh         # Commits and pushes HTML update  
-│   ├── deploy.sh           # Deploys to Azure Container Instance (ACI)  
-│   └── entrypoint.sh       # Runs all scripts in order  
-├── ci.yml                  # Triggers pipeline on specific data.txt changes  
-└── deploy.yml              # GitHub Actions workflow for build + deploy  
-
-index.html                  # Displays the updated word count  
-specific data.txt           # Input file triggering the pipeline  
-Dockerfile                  # Python-based container with automation logic  
+│   ├── setup.sh              
+│   ├── run_app.sh            
+│   ├── update_html.sh        
+│   ├── git_push.sh        
+│   ├── deploy.sh            
+│   └── entrypoint.sh       
+├── ci.yml                    
+└── deploy.yml              
+index.html                 
+specific data.txt           
+Dockerfile                    
 
 ---
 
