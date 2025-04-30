@@ -27,17 +27,20 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 ## 📁 Project Structure
 
 .github/workflows/
+│
 ├── apps/
-
+│   │
 │   └── app.py
-                
+│               
 ├── scripts/
+│   │
 │   ├── setup.sh              
 │   ├── run_app.sh            
 │   ├── update_html.sh        
 │   ├── git_push.sh        
 │   ├── deploy.sh            
-│   └── entrypoint.sh       
+│   └── entrypoint.sh  
+│     
 ├── ci.yml                    
 └── deploy.yml              
 index.html                 

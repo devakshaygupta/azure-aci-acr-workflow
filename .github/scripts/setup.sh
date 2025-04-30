@@ -97,7 +97,7 @@ fi
 # Upload secrets using GitHub CLI if available
 if command -v gh &> /dev/null; then
   echo "🔗 Setting GitHub Actions secrets..."
-  gh secret set AZURE_CREDENTIALS --body "$AZURE_CREDENTIALS"
+  echo "$AZURE_CREDENTIALS" | gh secret set AZURE_CREDENTIALS
   gh secret set ACR_USERNAME --body "$ACR_USERNAME"
   gh secret set ACR_PASSWORD --body "$ACR_PASSWORD"
   if [ $? -eq 0 ]; then
