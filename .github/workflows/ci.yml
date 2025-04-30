@@ -1,6 +1,7 @@
 name: Trigger Word Count Pipeline
 
 on:
+  workflow_dispatch: # Allows manual triggering
   push:
     paths:
       - 'data.txt'
