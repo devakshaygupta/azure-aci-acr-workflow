@@ -7,6 +7,8 @@ on:
     branches:
       - main         # Trigger only on push to main branch
 
+  workflow_dispatch:  # Optional manual trigger
+
 jobs:
   trigger:
     uses: Georges034302/azure-aci-acr-workflow/.github/workflows/deploy.yml@main
@@ -20,7 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Debug ACR_NAME
-        run: "echo 'ACR_NAME: ${{ secrets.ACR_NAME }}'"
+        run: echo "✅ ACR_NAME = $ACR_NAME"
         env:
           ACR_NAME: ${{ secrets.ACR_NAME }}
-
