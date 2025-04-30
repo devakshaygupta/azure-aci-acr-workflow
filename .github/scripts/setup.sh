@@ -8,12 +8,6 @@ ACR_NAME="wordcountacr$(date +%s)"  # Unique ACR name
 LOCATION="australiaeast"
 SP_NAME="github-actions-sp"
 
-# Check for Azure CLI
-if ! command -v az &> /dev/null; then
-    echo "❌ Azure CLI is not installed. Please install it and try again."
-    exit 1
-fi
-
 # Azure Login
 echo "🔐 Logging into Azure..."
 az login --use-device-code
@@ -27,33 +21,45 @@ echo "✅ Azure login successful."
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 echo "📘 Subscription ID: $SUBSCRIPTION_ID"
 
-# Check or Create Resource Group
-echo "📁 Checking if resource group '$RESOURCE_GROUP' exists..."
-if az group exists --name "$RESOURCE_GROUP"; then
-    echo "✅ Resource group '$RESOURCE_GROUP' already exists."
-else
-    echo "📁 Creating resource group..."
-    az group create --name "$RESOURCE_GROUP" --location "$LOCATION"
-    if [ $? -ne 0 ]; then
-        echo "❌ Failed to create resource group."
-        exit 1
-    fi
-    echo "✅ Resource group '$RESOURCE_GROUP' created."
-fi
-
-# Create ACR
-echo "📦 Creating Azure Container Registry..."
-az acr create \
-  --resource-group "$RESOURCE_GROUP" \
-  --name "$ACR_NAME" \
-  --sku Basic \
-  --location "$LOCATION" \
-  --admin-enabled true
+# Create or Confirm Resource Group
+echo "📁 Creating or confirming resource group '$RESOURCE_GROUP'..."
+az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --output none
 if [ $? -ne 0 ]; then
-    echo "❌ Failed to create Azure Container Registry."
+    echo "❌ Failed to create or verify resource group."
     exit 1
 fi
-echo "✅ ACR '$ACR_NAME' created."
+echo "✅ Resource group '$RESOURCE_GROUP' is ready."
+
+# Propagation wait for ACR availability
+echo "⏳ Waiting for resource group to propagate..."
+sleep 10
+
+# Create ACR with retry
+echo "📦 Creating Azure Container Registry with retry logic..."
+ACR_CREATED=0
+for attempt in {1..5}; do
+  az acr create \
+    --resource-group "$RESOURCE_GROUP" \
+    --name "$ACR_NAME" \
+    --sku Basic \
+    --location "$LOCATION" \
+    --admin-enabled true \
+    --only-show-errors \
+    --output none && {
+      ACR_CREATED=1
+      echo "✅ ACR '$ACR_NAME' created."
+      break
+  }
+
+  echo "⚠️ Attempt $attempt failed. Retrying in 10 seconds..."
+  sleep 10
+
+done
+
+if [ "$ACR_CREATED" -eq 0 ]; then
+  echo "❌ Failed to create Azure Container Registry after 5 attempts."
+  exit 1
+fi
 
 # Create Service Principal
 echo "🔐 Creating GitHub Actions service principal..."
@@ -69,6 +75,12 @@ if [ $? -ne 0 ]; then
 fi
 echo "✅ Service principal '$SP_NAME' created."
 
+# Validate AZURE_CREDENTIALS JSON
+if ! echo "$AZURE_CREDENTIALS" | jq empty; then
+    echo "❌ Invalid AZURE_CREDENTIALS JSON. Please check the Service Principal creation step."
+    exit 1
+fi
+
 # Assign RBAC Role for ACR
 echo "🔑 Assigning 'AcrPush' role to the service principal for ACR..."
 SP_APP_ID=$(echo "$AZURE_CREDENTIALS" | jq -r '.clientId')
@@ -83,28 +95,23 @@ if [ $? -ne 0 ]; then
     echo "❌ Failed to assign 'AcrPush' role to the service principal."
     exit 1
 fi
-echo "✅ 'AcrPush' role assigned to the service principal for ACR."
+echo "✅ 'AcrPush' role assigned."
 
 # Get ACR credentials
 ACR_USERNAME=$(az acr credential show --name "$ACR_NAME" --query username -o tsv)
 ACR_PASSWORD=$(az acr credential show --name "$ACR_NAME" --query "passwords[0].value" -o tsv)
 
-# Check for GitHub CLI
+# Set GitHub Secrets if authenticated
 if ! command -v gh &> /dev/null; then
-    echo "⚠️ GitHub CLI is not installed. You will need to manually set the secrets."
-fi
-
-# Upload secrets using GitHub CLI if available
-if command -v gh &> /dev/null; then
-  echo "🔗 Setting GitHub Actions secrets..."
-  echo "$AZURE_CREDENTIALS" | gh secret set AZURE_CREDENTIALS
-  gh secret set ACR_USERNAME --body "$ACR_USERNAME"
-  gh secret set ACR_PASSWORD --body "$ACR_PASSWORD"
-  if [ $? -eq 0 ]; then
-    echo "✅ GitHub secrets 'AZURE_CREDENTIALS', 'ACR_USERNAME', and 'ACR_PASSWORD' set successfully."
-  else
-    echo "⚠️ Failed to set GitHub secrets. Please run 'gh auth login' and try again."
-  fi
+    echo "⚠️ GitHub CLI not installed. Please set secrets manually."
+elif gh auth status &> /dev/null; then
+    echo "🔗 Setting GitHub Actions secrets..."
+    echo "$AZURE_CREDENTIALS" | gh secret set AZURE_CREDENTIALS --repo "$OWNER/$REPO"
+    gh secret set ACR_USERNAME --body "$ACR_USERNAME" --repo "$OWNER/$REPO"
+    gh secret set ACR_PASSWORD --body "$ACR_PASSWORD" --repo "$OWNER/$REPO"
+    echo "✅ GitHub secrets set."
+else
+    echo "⚠️ GitHub CLI not authenticated. Run 'gh auth login'."
 fi
 
 echo "🎉 Setup complete."
