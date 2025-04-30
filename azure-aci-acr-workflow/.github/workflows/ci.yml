@@ -7,4 +7,8 @@ on:
 
 jobs:
   trigger:
-    uses: ./.github/workflows/deploy.yml
+    uses: Georges034302/azure-aci-acr-workflow/.github/workflows/deploy.yml@main
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+      ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
