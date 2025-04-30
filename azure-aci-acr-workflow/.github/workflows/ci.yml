@@ -1,0 +1,10 @@
+name: Trigger Word Count Pipeline
+
+on:
+  push:
+    paths:
+      - 'data.txt'
+
+jobs:
+  trigger:
+    uses: ./.github/workflows/deploy.yml
