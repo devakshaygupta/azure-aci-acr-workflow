@@ -7,6 +7,9 @@ RESOURCE_GROUP="wordcount-rg"
 ACR_NAME="wordcountacr$(date +%s)"  # Unique ACR name
 LOCATION="australiaeast"
 SP_NAME="github-actions-sp"
+OWNER="Georges034302"
+REPO="azure-aci-acr-workflow"
+
 
 # Azure Login
 echo "🔐 Logging into Azure..."
@@ -75,6 +78,10 @@ if [ $? -ne 0 ]; then
 fi
 echo "✅ Service principal '$SP_NAME' created."
 
+# Debugging AZURE_CREDENTIALS
+echo "🔍 Debugging AZURE_CREDENTIALS:"
+echo "$AZURE_CREDENTIALS" | jq
+
 # Validate AZURE_CREDENTIALS JSON
 if ! echo "$AZURE_CREDENTIALS" | jq empty; then
     echo "❌ Invalid AZURE_CREDENTIALS JSON. Please check the Service Principal creation step."
@@ -100,6 +107,11 @@ echo "✅ 'AcrPush' role assigned."
 # Get ACR credentials
 ACR_USERNAME=$(az acr credential show --name "$ACR_NAME" --query username -o tsv)
 ACR_PASSWORD=$(az acr credential show --name "$ACR_NAME" --query "passwords[0].value" -o tsv)
+
+# Debugging ACR Credentials
+echo "🔍 Debugging ACR Credentials:"
+echo "ACR_USERNAME: $ACR_USERNAME"
+echo "ACR_PASSWORD: $ACR_PASSWORD"
 
 # Set GitHub Secrets if authenticated
 if ! command -v gh &> /dev/null; then
