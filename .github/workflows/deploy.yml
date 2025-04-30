@@ -5,9 +5,9 @@ on:
     secrets:
       AZURE_CREDENTIALS:
         required: true
-      ACR_PASSWORD:
-        required: true
       ACR_USERNAME:
+        required: true
+      ACR_PASSWORD:
         required: true
       ACR_NAME:
         required: true
@@ -17,18 +17,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Build Docker Image
-      run: docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest .
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest .
 
-    - name: Push Docker Image to ACR
-      run: |
-        echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
-        docker push ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest
+      - name: Push Docker Image to ACR
+        run: |
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest
