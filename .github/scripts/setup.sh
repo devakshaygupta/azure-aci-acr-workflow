@@ -121,6 +121,12 @@ elif gh auth status &> /dev/null; then
     echo "$AZURE_CREDENTIALS" | gh secret set AZURE_CREDENTIALS --repo "$OWNER/$REPO"
     gh secret set ACR_USERNAME --body "$ACR_USERNAME" --repo "$OWNER/$REPO"
     gh secret set ACR_PASSWORD --body "$ACR_PASSWORD" --repo "$OWNER/$REPO"
+    gh secret set ACR_NAME --body "$ACR_NAME" --repo "$OWNER/$REPO"  # Add ACR_NAME secret
+    gh secret set RESOURCE_GROUP --body "$RESOURCE_GROUP" --repo "$OWNER/$REPO"  # Add RESOURCE_GROUP secret
+    gh secret set SP_APP_ID --body "$SP_APP_ID" --repo "$OWNER/$REPO"  # Add SP_APP_ID secret
+    gh secret set SUBSCRIPTION_ID --body "$SUBSCRIPTION_ID" --repo "$OWNER/$REPO"  # Add SUBSCRIPTION_ID secret
+    gh secret set LOCATION --body "$LOCATION" --repo "$OWNER/$REPO"  # Add LOCATION secret
+    gh secret set SP_NAME --body "$SP_NAME" --repo "$OWNER/$REPO"  # Add SP_NAME secret
     echo "✅ GitHub secrets set."
 else
     echo "⚠️ GitHub CLI not authenticated. Run 'gh auth login'."
