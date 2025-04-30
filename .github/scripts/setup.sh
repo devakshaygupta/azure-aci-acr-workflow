@@ -67,6 +67,23 @@ if [ $? -ne 0 ]; then
     echo "❌ Failed to create service principal."
     exit 1
 fi
+echo "✅ Service principal '$SP_NAME' created."
+
+# Assign RBAC Role for ACR
+echo "🔑 Assigning 'AcrPush' role to the service principal for ACR..."
+SP_APP_ID=$(echo "$AZURE_CREDENTIALS" | jq -r '.clientId')
+ACR_ID=$(az acr show --name "$ACR_NAME" --query id -o tsv)
+
+az role assignment create \
+  --assignee "$SP_APP_ID" \
+  --role "AcrPush" \
+  --scope "$ACR_ID"
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to assign 'AcrPush' role to the service principal."
+    exit 1
+fi
+echo "✅ 'AcrPush' role assigned to the service principal for ACR."
 
 # Get ACR credentials
 ACR_USERNAME=$(az acr credential show --name "$ACR_NAME" --query username -o tsv)

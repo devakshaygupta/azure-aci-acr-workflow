@@ -28,7 +28,9 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 
 .github/workflows/
 ├── apps/
-│   └── app.py                
+
+│   └── app.py
+                
 ├── scripts/
 │   ├── setup.sh              
 │   ├── run_app.sh            
