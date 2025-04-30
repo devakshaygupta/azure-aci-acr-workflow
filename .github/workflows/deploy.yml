@@ -9,7 +9,7 @@ on:
         required: true
       ACR_USERNAME:
         required: true
-      ACR_NAME:  # Add this line
+      ACR_NAME:
         required: true
 
 jobs:
