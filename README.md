@@ -43,7 +43,7 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 
 index.html                 
 specific data.txt           
-Dockerfile
+Dockerfile\
 .gitignore                
 
 ---
