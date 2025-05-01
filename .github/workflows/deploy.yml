@@ -1,7 +1,26 @@
 name: Build and Deploy to Azure
 
 on:
-  workflow_call: # Makes this workflow reusable by other workflows
+  workflow_call:
+    inputs:
+      AZURE_CREDENTIALS:
+        required: true
+        type: string
+      ACR_USERNAME:
+        required: true
+        type: string
+      ACR_PASSWORD:
+        required: true
+        type: string
+      ACR_NAME:
+        required: true
+        type: string
+      RESOURCE_GROUP:
+        required: true
+        type: string
+      LOCATION:
+        required: true
+        type: string
 
 jobs:
   build-push-deploy:
@@ -16,18 +35,18 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ inputs.AZURE_CREDENTIALS }}
 
       # Step 3: Build Docker Image
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest .
+          docker build -t ${{ inputs.ACR_NAME }}.azurecr.io/wordcount:latest .
 
       # Step 4: Push Docker Image to ACR
       - name: Push Docker Image to ACR
         run: |
-          echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
-          docker push ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest
+          echo "${{ inputs.ACR_PASSWORD }}" | docker login ${{ inputs.ACR_NAME }}.azurecr.io -u ${{ inputs.ACR_USERNAME }} --password-stdin
+          docker push ${{ inputs.ACR_NAME }}.azurecr.io/wordcount:latest
 
       # Step 5: Deploy to Azure Container Instances
       - name: Deploy to ACI
@@ -35,11 +54,11 @@ jobs:
           chmod +x .github/scripts/deploy.sh
           bash .github/scripts/deploy.sh
         env:
-          ACR_NAME: ${{ secrets.ACR_NAME }}
-          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
-          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-          RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-          LOCATION: ${{ secrets.LOCATION }}
+          ACR_NAME: ${{ inputs.ACR_NAME }}
+          ACR_USERNAME: ${{ inputs.ACR_USERNAME }}
+          ACR_PASSWORD: ${{ inputs.ACR_PASSWORD }}
+          RESOURCE_GROUP: ${{ inputs.RESOURCE_GROUP }}
+          LOCATION: ${{ inputs.LOCATION }}
           ACI_NAME: "wordcount-app"
           DNS_LABEL: "wordcountdemo"
           PORT: 80
