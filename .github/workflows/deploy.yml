@@ -1,35 +1,48 @@
-name: Word Count Pipeline
+name: Build and Deploy to Azure
 
 on:
-  workflow_call:
-    secrets:
-      AZURE_CREDENTIALS:
-        required: true
-      ACR_USERNAME:
-        required: true
-      ACR_PASSWORD:
-        required: true
-      ACR_NAME:
-        required: true
+  workflow_dispatch: # Allows manual triggering of the workflow
+  push:              # Automatically triggers on push to the repository
+    branches:
+      - main         # Trigger only on the main branch
 
 jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Step 2: Azure Login
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Step 3: Build Docker Image
       - name: Build Docker Image
         run: |
           docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest .
 
+      # Step 4: Push Docker Image to ACR
       - name: Push Docker Image to ACR
         run: |
           echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
           docker push ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest
+
+      # Step 5: Deploy to Azure Container Instances
+      - name: Deploy to ACI
+        run: |
+          chmod +x .github/scripts/deploy.sh
+          bash .github/scripts/deploy.sh
+        env:
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+          RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+          LOCATION: ${{ secrets.LOCATION }}
+          ACI_NAME: "wordcount-app"
+          DNS_LABEL: "wordcountdemo"
+          PORT: 80

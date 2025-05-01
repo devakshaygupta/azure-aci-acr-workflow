@@ -13,6 +13,3 @@ bash /app/scripts/update_html.sh
 
 # Step 4: Commit and push the changes to the repository
 bash /app/scripts/git_push.sh
-
-# Step 5: Deploy the application to Azure Container Instances
-bash /app/scripts/deploy.sh
