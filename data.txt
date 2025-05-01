@@ -1,1 +1,1 @@
-This is a test file - GitHub + Azure ACI+ACR Integration (CI/CD) Pipeline
+This is a test file - GitHub + Azure ACI+ACR Integration Pipeline
