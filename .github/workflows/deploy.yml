@@ -2,13 +2,6 @@ name: Build and Deploy to Azure
 
 on:
   workflow_call:
-    inputs:
-      RESOURCE_GROUP:
-        required: true
-        type: string
-      LOCATION:
-        required: true
-        type: string
     secrets:
       AZURE_CREDENTIALS:
         required: true
@@ -18,44 +11,43 @@ on:
         required: true
       ACR_NAME:
         required: true
+      RESOURCE_GROUP:
+        required: true
+      LOCATION:
+        required: true
 
 jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Azure Login
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ inputs.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Step 3: Build Docker Image
       - name: Build Docker Image
         run: |
-          docker build -t ${{ inputs.ACR_NAME }}.azurecr.io/wordcount:latest .
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest .
 
-      # Step 4: Push Docker Image to ACR
       - name: Push Docker Image to ACR
         run: |
-          echo "${{ inputs.ACR_PASSWORD }}" | docker login ${{ inputs.ACR_NAME }}.azurecr.io -u ${{ inputs.ACR_USERNAME }} --password-stdin
-          docker push ${{ inputs.ACR_NAME }}.azurecr.io/wordcount:latest
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/wordcount:latest
 
-      # Step 5: Deploy to Azure Container Instances
-      - name: Deploy to ACI
+      - name: Deploy to Azure Container Instances
         run: |
           chmod +x .github/scripts/deploy.sh
           bash .github/scripts/deploy.sh
         env:
-          ACR_NAME: ${{ inputs.ACR_NAME }}
-          ACR_USERNAME: ${{ inputs.ACR_USERNAME }}
-          ACR_PASSWORD: ${{ inputs.ACR_PASSWORD }}
-          RESOURCE_GROUP: ${{ inputs.RESOURCE_GROUP }}
-          LOCATION: ${{ inputs.LOCATION }}
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+          RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+          LOCATION: ${{ secrets.LOCATION }}
           ACI_NAME: "wordcount-app"
           DNS_LABEL: "wordcountdemo"
           PORT: 80

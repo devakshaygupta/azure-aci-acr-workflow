@@ -3,18 +3,17 @@ name: Trigger Word Count Pipeline
 on:
   push:
     paths:
-      - 'data.txt'  # Trigger only when this file is changed
+      - 'data.txt'
     branches:
-      - main         # Trigger only on push to main branch
+      - main
 
 jobs:
   deploy:
     uses: Georges034302/azure-aci-acr-workflow/.github/workflows/deploy.yml@main
-    with:
-      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-      LOCATION: ${{ secrets.LOCATION }}
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       ACR_NAME: ${{ secrets.ACR_NAME }}
+      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+      LOCATION: ${{ secrets.LOCATION }}
