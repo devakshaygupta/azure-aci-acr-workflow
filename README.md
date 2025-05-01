@@ -1,7 +1,7 @@
-# 🚀 Word Count CI/CD with ACR + ACI + GitHub Actions
+## 🚀 Word Count CI/CD with ACR + ACI + GitHub Actions
 This project demonstrates a complete CI/CD pipeline using **Azure Container Registry (ACR)**, **Azure Container Instances (ACI)**, and **GitHub Actions**, triggered by changes to a data file.
 
-## 🎓 Project overview:
+### 🎓 Project overview:
 
 - 🧪 Demo App: A Python script counts words in specific data.txt and updates index.html dynamically.
 - 🛠️ Automation: GitHub Actions runs the entire pipeline using Bash and Python scripts.
@@ -13,10 +13,10 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 
 ---
 
-## 📌 Project Highlights
+### 📌 Project Highlights
 
 - ✅ Runs entirely in **GitHub Codespaces**
-- ✅ Automates word counting from `specific data.txt` using Python
+- ✅ Automates word counting from `data.txt` using Python
 - ✅ Updates `index.html` dynamically with the word count
 - ✅ Builds and pushes Docker images to ACR
 - ✅ Automatically deploys the updated app to ACI
@@ -24,15 +24,14 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 
 ---
 
-## 📁 Project Structure
+### 📁 Project Structure
 
 .github/workflows/\
 │\
 ├── apps/\
 │   &ensp;&ensp;&ensp;└── app.py          
 ├── scripts/\
-│   &ensp;&ensp;&ensp;├── setup.sh              
-│   &ensp;&ensp;&ensp;├── run_app.sh            
+│   &ensp;&ensp;&ensp;├── setup.sh   (Run Once)                  
 │   &ensp;&ensp;&ensp;├── update_html.sh        
 │   &ensp;&ensp;&ensp;├── git_push.sh        
 │   &ensp;&ensp;&ensp;├── deploy.sh            
@@ -48,6 +47,6 @@ Dockerfile\
 
 ---
 
-## 🌐 Live App Access (FQDN)
+### 🌐 Live App Access (FQDN)
 http://wordcountdemo.australiaeast.azurecontainer.io
 
