@@ -2,12 +2,17 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# Copy application files
-COPY apps/app.py data.txt index.html /app/
-COPY scripts/ /app/scripts/
+# Copy app and input files
+COPY "index.html" "data.txt" /app/
+
+# Copy app.py
+COPY .github/workflows/apps/app.py /app/
+
+# Copy all scripts
+COPY .github/workflows/scripts/ /app/scripts/
 
 # Make entrypoint script executable
 RUN chmod +x /app/scripts/entrypoint.sh
 
 # Set entrypoint
-ENTRYPOINT ["sh", "scripts/entrypoint.sh"]
+ENTRYPOINT ["sh", "/app/scripts/entrypoint.sh"]
