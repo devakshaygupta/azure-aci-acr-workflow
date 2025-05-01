@@ -12,6 +12,7 @@ az container create \
   --dns-name-label "$DNS_LABEL" \
   --ports "$PORT" \
   --location "$LOCATION" \
+  --os-type Linux \  # Explicitly set the OS type to Linux
   --registry-login-server "$ACR_NAME.azurecr.io" \
   --registry-username "$ACR_USERNAME" \
   --registry-password "$ACR_PASSWORD"

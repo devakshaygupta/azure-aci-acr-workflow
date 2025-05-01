@@ -1,10 +1,7 @@
 name: Build and Deploy to Azure
 
 on:
-  workflow_dispatch: # Allows manual triggering of the workflow
-  push:              # Automatically triggers on push to the repository
-    branches:
-      - main         # Trigger only on the main branch
+  workflow_call: # Makes this workflow reusable by other workflows
 
 jobs:
   build-push-deploy:
