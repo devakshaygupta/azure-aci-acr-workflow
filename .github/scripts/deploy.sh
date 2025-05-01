@@ -46,6 +46,7 @@ az container create \
 FQDN=$(az container show \
   --name "$ACI_NAME" \
   --resource-group "$RESOURCE_GROUP" \
+  --location "$LOCATION" \
   --query ipAddress.fqdn -o tsv)
 
 if [ -z "$FQDN" ]; then
