@@ -3,24 +3,21 @@ name: Build and Deploy to Azure
 on:
   workflow_call:
     inputs:
-      AZURE_CREDENTIALS:
-        required: true
-        type: string
-      ACR_USERNAME:
-        required: true
-        type: string
-      ACR_PASSWORD:
-        required: true
-        type: string
-      ACR_NAME:
-        required: true
-        type: string
       RESOURCE_GROUP:
         required: true
         type: string
       LOCATION:
         required: true
         type: string
+    secrets:
+      AZURE_CREDENTIALS:
+        required: true
+      ACR_USERNAME:
+        required: true
+      ACR_PASSWORD:
+        required: true
+      ACR_NAME:
+        required: true
 
 jobs:
   build-push-deploy:
