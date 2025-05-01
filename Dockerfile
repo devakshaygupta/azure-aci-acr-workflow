@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy app and input files
 COPY "index.html" "data.txt" /app/
 
-# Copy app.py (adjust the path if it exists elsewhere)
-COPY .github/scripts/app.py /app/
+# Copy app.py from the correct location
+COPY .github/apps/app.py /app/
 
 # Copy all scripts
 COPY .github/scripts/ /app/scripts/
