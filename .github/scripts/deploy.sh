@@ -13,6 +13,8 @@ az container create \
   --ports "$PORT" \
   --location "$LOCATION" \
   --os-type Linux \
+  --cpu 1 \  # Specify 1 CPU
+  --memory 1.5 \  # Specify 1.5 GB of memory
   --registry-login-server "$ACR_NAME.azurecr.io" \
   --registry-username "$ACR_USERNAME" \
   --registry-password "$ACR_PASSWORD"
