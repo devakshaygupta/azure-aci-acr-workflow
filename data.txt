@@ -2,4 +2,3 @@ This is a test file:
 - GitHub Pipeline CI/CD
 - Azure ACI
 - Azure ACR
-- Azure Container Apps
