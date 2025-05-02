@@ -19,8 +19,13 @@ COPY .github/scripts/ /app/scripts/
 # Copy the .git directory into the container
 COPY .git /app/.git
 
+# Expose port 80
+EXPOSE 80
+
 # Make entrypoint script executable
 RUN chmod +x /app/scripts/entrypoint.sh
 
 # Set entrypoint
 ENTRYPOINT ["sh", "/app/scripts/entrypoint.sh"]
+
+
