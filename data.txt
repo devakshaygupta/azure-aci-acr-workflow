@@ -3,4 +3,5 @@ This is a test file for Python script:
 - Azure ACI
 - Azure ACR
 - Updates Success
-- FQDN Live
+- FQDN Live 🌐
+- Success ✓ 
