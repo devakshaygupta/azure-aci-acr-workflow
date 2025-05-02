@@ -11,7 +11,7 @@ bash /app/scripts/update_readme.sh "$DNS_LABEL" "$LOCATION"
 # Step 3: Commit and push the changes to the repository
 bash /app/scripts/git_push.sh
 
-# Step 4: Start Apache2 to serve the updated HTML file
+# Step 4: Start the Python HTTP server to serve the index.html file
 echo "Starting Python HTTP server to serve index.html..."
 cd /app
 python3 -m http.server 80
