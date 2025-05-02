@@ -22,7 +22,8 @@ az container create \
   --memory 1 \
   --registry-login-server "$ACR_NAME.azurecr.io" \
   --registry-username "$ACR_USERNAME" \
-  --registry-password "$ACR_PASSWORD"
+  --registry-password "$ACR_PASSWORD" \
+  --environment-variables DNS_LABEL="$DNS_LABEL" LOCATION="$LOCATION"
 
 # Retrieve FQDN
 echo "⏳ Fetching FQDN..."

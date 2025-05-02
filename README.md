@@ -3,7 +3,7 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 
 ### 📌 Project Highlights:
 - ⚙️ Integration: Fully integrates (GitHub Actions + ACR + ACI) CI/CD pipeline.
-- 🔐 Setup: (Run once setup.sh) to configure Azure resources (Resource Group, ACR, Service Principal) and set GitHub Actions secrets.
+- 🔐 Setup: Configure Azure (Resource Group, ACR, Service Principal) and set GitHub Actions secrets.
 - 🧪 Demo App: A Python script counts words in specific data.txt 
 - 🛠️ Automation: GitHub Actions runs the entire pipeline using Bash and Python scripts.
 - 🐳 Docker Build: A custom Docker image is built on every change and pushed to ACR.
@@ -21,7 +21,7 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 ├── apps/\
 │   &ensp;&ensp;&ensp;└── app.py          
 ├── scripts/\
-│   &ensp;&ensp;&ensp;├── setup.sh   (Run Once)                  
+│   &ensp;&ensp;&ensp;├── setup.sh   (One-time script - initialization)                  
 │   &ensp;&ensp;&ensp;├── update_html.sh
 │   &ensp;&ensp;&ensp;├── update_readme.sh         
 │   &ensp;&ensp;&ensp;├── git_push.sh        
