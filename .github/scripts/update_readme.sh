@@ -5,6 +5,8 @@ set -e
 
 # Input variables
 README_FILE="README.md"
+DNS_LABEL=$1
+LOCATION=$2
 
 # Validate inputs
 if [ -z "$DNS_LABEL" ] || [ -z "$LOCATION" ]; then
