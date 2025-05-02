@@ -5,6 +5,13 @@
 # Step 1: Update the HTML file with the new word count
 bash /app/scripts/update_html.sh
 
-# Step 2: Start Apache2 to serve the updated HTML file
-echo "Starting Apache2 to serve index.html..."
-apachectl -D FOREGROUND
+# Step 2: Update the README file with the new FQDN
+bash /app/scripts/update_readme.sh "$DNS_LABEL" "$LOCATION"
+
+# Step 3: Commit and push the changes to the repository
+bash /app/scripts/git_push.sh
+
+# Step 4: Start Apache2 to serve the updated HTML file
+echo "Starting Python HTTP server to serve index.html..."
+cd /app
+python3 -m http.server 80
