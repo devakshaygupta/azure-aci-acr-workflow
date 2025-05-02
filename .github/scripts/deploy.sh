@@ -17,8 +17,8 @@ az container create \
   --ports "$PORT" \
   --location "$LOCATION" \
   --os-type Linux \
-  --cpu 2 \
-  --memory 2 \
+  --cpu 1 \
+  --memory 1 \
   --registry-login-server "$ACR_NAME.azurecr.io" \
   --registry-username "$ACR_USERNAME" \
   --registry-password "$ACR_PASSWORD"

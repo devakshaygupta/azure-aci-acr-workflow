@@ -6,4 +6,4 @@
 bash /app/scripts/update_html.sh
 
 # Step 2: Commit and push the changes to the repository
-bash /app/scripts/git_push.sh
+# bash /app/scripts/git_push.sh
