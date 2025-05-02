@@ -39,5 +39,5 @@ Dockerfile\
 ---
 
 ### 🌐 Live App Access (FQDN)
-http://wordcountdemo.australiaeast.azurecontainer.io
+http://wordcountdemo-14794997400.australiaeast.azurecontainer.io
 
