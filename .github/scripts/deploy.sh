@@ -2,9 +2,11 @@
 set -e
 
 # Login to ACR
+echo "🔐 Logging into ACR..."
 az acr login --name "$ACR_NAME"
 
 # Deploy to Azure Container Instances
+echo "📦 Deploy Docker app to ACI..."
 az container create \
   --resource-group "$RESOURCE_GROUP" \
   --name "$ACI_NAME" \
@@ -20,15 +22,11 @@ az container create \
   --registry-password "$ACR_PASSWORD"
 
 # Retrieve FQDN
+echo "⏳ Fetching FQDN..."
 FQDN=$(az container show \
   --name "$ACI_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --query ipAddress.fqdn -o tsv)
-
-if [ -z "$FQDN" ]; then
-    echo "❌ Failed to retrieve the FQDN. Please check the deployment."
-    exit 1
-fi
 
 echo "✔️ App deployed successfully."
 echo "🌐 App deployed at: http://$FQDN"

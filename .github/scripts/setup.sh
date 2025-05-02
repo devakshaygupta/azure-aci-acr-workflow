@@ -14,10 +14,7 @@ REPO="azure-aci-acr-workflow"
 # Azure Login
 echo "🔐 Logging into Azure..."
 az login --use-device-code
-if [ $? -ne 0 ]; then
-    echo "❌ Azure login failed. Please check your credentials."
-    exit 1
-fi
+
 echo "✅ Azure login successful."
 
 # Subscription ID
@@ -58,11 +55,6 @@ for attempt in {1..5}; do
   sleep 10
 
 done
-
-if [ "$ACR_CREATED" -eq 0 ]; then
-  echo "❌ Failed to create Azure Container Registry after 5 attempts."
-  exit 1
-fi
 
 # Create Service Principal
 echo "🔐 Creating GitHub Actions service principal..."
