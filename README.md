@@ -22,7 +22,7 @@ This project demonstrates a complete CI/CD pipeline using **Azure Container Regi
 │   &ensp;&ensp;&ensp;└── app.py          
 ├── scripts/\
 │   &ensp;&ensp;&ensp;├── setup.sh   (One-time script - initialization)                  
-│   &ensp;&ensp;&ensp;├── update_html.sh
+│   &ensp;&ensp;&ensp;├── update_html.sh\
 │   &ensp;&ensp;&ensp;├── update_readme.sh         
 │   &ensp;&ensp;&ensp;├── git_push.sh        
 │   &ensp;&ensp;&ensp;├── deploy.sh            
