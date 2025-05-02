@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Copy app and input files
-COPY "index.html" "data.txt" /app/
+COPY "index.html" "data.txt" "README.md" /app/
 
 # Copy app.py from the correct location
 COPY .github/apps/app.py /app/

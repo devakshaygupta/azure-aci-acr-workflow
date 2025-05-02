@@ -2,5 +2,4 @@ This is a test file for Python script:
 - GitHub Pipeline CI/CD
 - Azure ACI
 - Azure ACR
-- Test 41
-- FQDN LIVE true
+- FQDN LIVE 
