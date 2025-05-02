@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+PORT=${PORT:-80} # Default to port 80 if not set
+
 # Login to ACR
 echo "🔐 Logging into ACR..."
 az acr login --name "$ACR_NAME"
