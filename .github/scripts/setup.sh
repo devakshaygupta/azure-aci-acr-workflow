@@ -100,10 +100,12 @@ echo "✅ 'AcrPush' role assigned."
 ACR_USERNAME=$(az acr credential show --name "$ACR_NAME" --query username -o tsv)
 ACR_PASSWORD=$(az acr credential show --name "$ACR_NAME" --query "passwords[0].value" -o tsv)
 
-# Debugging ACR Credentials
-echo "🔍 Debugging ACR Credentials:"
-echo "ACR_USERNAME: $ACR_USERNAME"
-echo "ACR_PASSWORD: $ACR_PASSWORD"
+# Configure GitHub Access with TOKEN (CLI): (Ensure to set the GITHUB_TOKEN environment variable)
+
+# gh auth logout
+# unset GITHUB_TOKEN
+# echo "TOKEN" | gh auth login --with-token
+# gh auth status
 
 # Set GitHub Secrets if authenticated
 if ! command -v gh &> /dev/null; then
