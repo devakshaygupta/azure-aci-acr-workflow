@@ -1,4 +1,5 @@
 ## 🚀 Word Count CI/CD with ACR + ACI + GitHub Actions
+[![Trigger Word Count Pipeline](https://github.com/devakshaygupta/azure-aci-acr-workflow/actions/workflows/ci.yml/badge.svg)](https://github.com/devakshaygupta/azure-aci-acr-workflow/actions/workflows/ci.yml)
 This project demonstrates a complete CI/CD pipeline using **Azure Container Registry (ACR)**, **Azure Container Instances (ACI)**, and **GitHub Actions**, triggered by changes to a data file.
 
 ### 📌 Project Highlights:
@@ -40,5 +41,5 @@ Dockerfile\
 ---
 
 ### 🌐 Live App Access (FQDN)
-http://wordcountdemo-14819494588.australiaeast.azurecontainer.io
+http://[http://wordcountdemo-14835755944.southindia.azurecontainer.io/](http://wordcountdemo-14835755944.southindia.azurecontainer.io/)
 
