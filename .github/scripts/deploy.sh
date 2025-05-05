@@ -1,8 +1,14 @@
 #!/bin/bash
 set -e
 
-LOCATION=${LOCATION:-australiaeast} # Default to australiaeast if LOCATION is not set
+LOCATION=${LOCATION:-southindia} # Default to australiaeast if LOCATION is not set
 PORT=${PORT:-80} # Default to port 80 if not set
+
+# Build the Docker image
+docker build -t wordcount:latest .
+
+# Tag the Docker image
+docker tag wordcount:latest "$ACR_NAME.azurecr.io/wordcount:latest"
 
 # Login to ACR
 echo "🔐 Logging into ACR..."

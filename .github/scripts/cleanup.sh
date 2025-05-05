@@ -4,7 +4,7 @@
 set -e
 
 # Input variables
-RESOURCE_GROUP="wordcount-rg" # Resource group name
+RESOURCE_GROUP="$AZ_RESOURCE_GROUP" # Resource group name
 ACI_NAME=""                   # Will be dynamically fetched
 ACR_NAME=""                   # Will be dynamically fetched
 

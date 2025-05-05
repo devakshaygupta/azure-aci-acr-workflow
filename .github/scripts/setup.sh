@@ -3,19 +3,27 @@
 # One-time Azure login + ACR + resource group + service principal + GitHub Secrets
 
 # Variables
-RESOURCE_GROUP="wordcount-rg"
-ACR_NAME="wordcountacr$(date +%s)"  # Unique ACR name
-LOCATION="australiaeast"
+RESOURCE_GROUP="$AZ_RESOURCE_GROUP"  # Resource group name
+ACR_NAME="${AZ_RESOURCE_GROUP}$(date +%s)"  # Unique ACR name
+LOCATION="southindia"
 SP_NAME="github-actions-sp"
-OWNER="Georges034302"
+OWNER="$AZ_OWNER"
 REPO="azure-aci-acr-workflow"
 
 
-# Azure Login
-echo "🔐 Logging into Azure..."
-az login --use-device-code
-
-echo "✅ Azure login successful."
+# Check Azure Login Status
+echo "🔍 Checking Azure login status..."
+if az account show &> /dev/null; then
+  echo "✅ Already logged into Azure."
+else
+  echo "🔐 Logging into Azure..."
+  az login --use-device-code
+  if [ $? -ne 0 ]; then
+    echo "❌ Azure login failed. Please check your credentials."
+    exit 1
+  fi
+  echo "✅ Azure login successful."
+fi
 
 # Subscription ID
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
@@ -112,15 +120,15 @@ if ! command -v gh &> /dev/null; then
     echo "⚠️ GitHub CLI not installed. Please set secrets manually."
 elif gh auth status &> /dev/null; then
     echo "🔗 Setting GitHub Actions secrets..."
-    echo "$AZURE_CREDENTIALS" | gh secret set AZURE_CREDENTIALS --repo "$OWNER/$REPO"
-    gh secret set ACR_USERNAME --body "$ACR_USERNAME" --repo "$OWNER/$REPO"
-    gh secret set ACR_PASSWORD --body "$ACR_PASSWORD" --repo "$OWNER/$REPO"
-    gh secret set ACR_NAME --body "$ACR_NAME" --repo "$OWNER/$REPO"  # Add ACR_NAME secret
-    gh secret set RESOURCE_GROUP --body "$RESOURCE_GROUP" --repo "$OWNER/$REPO"  # Add RESOURCE_GROUP secret
-    gh secret set SP_APP_ID --body "$SP_APP_ID" --repo "$OWNER/$REPO"  # Add SP_APP_ID secret
-    gh secret set SUBSCRIPTION_ID --body "$SUBSCRIPTION_ID" --repo "$OWNER/$REPO"  # Add SUBSCRIPTION_ID secret
-    gh secret set LOCATION --body "$LOCATION" --repo "$OWNER/$REPO"  # Add LOCATION secret
-    gh secret set SP_NAME --body "$SP_NAME" --repo "$OWNER/$REPO"  # Add SP_NAME secret
+    echo "$AZURE_CREDENTIALS" | gh secret set AZURE_CREDENTIALS --repo "$REPO_OWNER/$REPO"
+    gh secret set ACR_USERNAME --body "$ACR_USERNAME" --repo "$REPO_OWNER/$REPO"
+    gh secret set ACR_PASSWORD --body "$ACR_PASSWORD" --repo "$REPO_OWNER/$REPO"
+    gh secret set ACR_NAME --body "$ACR_NAME" --repo "$REPO_OWNER/$REPO"  # Add ACR_NAME secret
+    gh secret set RESOURCE_GROUP --body "$RESOURCE_GROUP" --repo "$REPO_OWNER/$REPO"  # Add RESOURCE_GROUP secret
+    gh secret set SP_APP_ID --body "$SP_APP_ID" --repo "$REPO_OWNER/$REPO"  # Add SP_APP_ID secret
+    gh secret set SUBSCRIPTION_ID --body "$SUBSCRIPTION_ID" --repo "$REPO_OWNER/$REPO"  # Add SUBSCRIPTION_ID secret
+    gh secret set LOCATION --body "$LOCATION" --repo "$REPO_OWNER/$REPO"  # Add LOCATION secret
+    gh secret set SP_NAME --body "$SP_NAME" --repo "$REPO_OWNER/$REPO"  # Add SP_NAME secret
     echo "✅ GitHub secrets set."
 else
     echo "⚠️ GitHub CLI not authenticated. Run 'gh auth login'."

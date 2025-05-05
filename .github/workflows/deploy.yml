@@ -45,7 +45,7 @@ jobs:
           ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
           ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
           RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-          LOCATION: "australiaeast"
+          LOCATION: "southindia"
           ACI_NAME: "wordcount-app"
           DNS_LABEL: "wordcountdemo-${{ github.run_id }}" # Append GitHub run ID for uniqueness
           PORT: 80
