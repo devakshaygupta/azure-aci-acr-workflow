@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    uses: Georges034302/azure-aci-acr-workflow/.github/workflows/deploy.yml@main
+    uses: {{ github.repository_owner }}/azure-aci-acr-workflow/.github/workflows/deploy.yml@main
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
