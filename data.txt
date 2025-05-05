@@ -3,6 +3,6 @@ This is a test file for Python script:
 - Azure + GitHub Integration (setup.sh - run once)
 - Azure ACI
 - Azure ACR
-- Updates Success
+- Updates Success ✅
 - FQDN Live 🌐
 - Success 😎
